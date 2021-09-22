@@ -1,62 +1,75 @@
-
-import { ICampusActivity, IStudentCampusActivity } from "./campusActivity.types";
+import {
+  ICampusActivity,
+  IStudentCampusActivity,
+} from "./campusActivity.types";
 import { CampusActivity } from "./campusActivity.schema";
 import { Student } from "../student/student.schema";
 import { Student_CampusActivity } from "../student_campusActivity/campusActivity.schema";
 import { IStudent } from "../student/student.types";
 
 const find = async () => {
-    const result = await CampusActivity.findAll();
-    return result;
-}
+  const result = await CampusActivity.findAll({
+    include: [
+      {
+        model: Student,
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  });
+  return result;
+};
 
 const getOne = async (id: number) => {
-    const campusActivity = await CampusActivity.findOne({ where: { id: id } });
+  const campusActivity = await CampusActivity.findOne({
+    where: { id: id },
+    include: [
+      {
+        model: Student,
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  });
 
-    return campusActivity;
+  return campusActivity;
 };
 
 const create = async (campusActivity: ICampusActivity) => {
-    try {
-        let student_campusActivityData:IStudentCampusActivity[]=[];
-        const {students,...campusActivityData}=campusActivity;
-        const result = await CampusActivity.create(campusActivityData);
-        console.log(result.get("id"));
-        // await addStudent(students,result.get('id')as number);
-        const responseFromStudent=await Student.bulkCreate(students);
-       
-        responseFromStudent.forEach((data)=>{
-            student_campusActivityData.push({
-                CampusActivityId:result.get("id") as number,
-                StudentId:data.get('id')as number,
-            })
-        });
-        const responeFromStu_CampActivity=await Student_CampusActivity.bulkCreate(student_campusActivityData);
-        return responeFromStu_CampActivity;
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    let student_campusActivityData: IStudentCampusActivity[] = [];
 
-}
-// const addStudent=async (student:IStudent[],campusActivityId:number) => {
-//     try {
-      
-       
-//         student.forEach(async (studentData)=>{
-//             const student= await Student.create(studentData);
-//             student_campusActivityData.CampusActivityId=campusActivityId;
-//             student_campusActivityData.StudentId=student.get('id')as number;
-//             console.log(student_campusActivityData);
-//             await Student_CampusActivity.create(student_campusActivityData);
-//         })
-//         return true;
-//     } catch (error) {
-//         console.log(error);
-//     }
-
-// }
+    // Destructure data from reequest object to insert record to tables.
+    //students-->  students data in cammpus activity(Many to Many)
+    //campus activity ---> campus activity data(Many to Many)
+    const { students, ...campusActivityData } = campusActivity;
+    const result = await CampusActivity.create(campusActivityData);
+    //insert students array data into students table
+    const responseFromStudent = await addStudents(students);
+    // create an array to insert mapping datato the third table
+    responseFromStudent.forEach((data) => {
+      student_campusActivityData.push({
+        CampusActivityId: result.get("id") as number,
+        StudentId: data.get("id") as number,
+      });
+    });
+    //insert record to the third table
+    const responeFromStu_CampActivity = await Student_CampusActivity.bulkCreate(
+      student_campusActivityData
+    );
+    return responeFromStu_CampActivity;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const addStudents = async (students: IStudent[]) => {
+  const response = await Student.bulkCreate(students);
+  return response;
+};
 export default {
-    find,
-    create,
-    getOne
-}
+  find,
+  create,
+  getOne,
+};

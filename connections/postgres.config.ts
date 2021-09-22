@@ -8,7 +8,8 @@ const postgres = new Sequelize(
     DB_PASSWORD as string, {
     host: DB_HOST as string,
     port: 5432,
-    dialect: 'postgres'
+    dialect: 'postgres',
+    logging: false
 });
 
 export default postgres;

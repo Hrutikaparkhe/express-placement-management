@@ -2,6 +2,7 @@
 import { CampusActivity } from "../campusActivity/campusActivity.schema";
 import { Student } from "../student/student.schema";
 import { Student_CampusActivity } from "../student_campusActivity/campusActivity.schema";
+import { User } from "../user/user.schema";
 
 import postgres from "./postgres.config";
 
@@ -11,6 +12,7 @@ export const connectToPostgres = async () => {
         await Student.sync();
         await CampusActivity.sync();
         await Student_CampusActivity.sync();
+        await User.sync();
         console.log('POSTGRES CONNECTED SUCCESSFULLY');
 
         return true;
