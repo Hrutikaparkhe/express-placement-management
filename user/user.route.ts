@@ -12,7 +12,22 @@ router.post("/register", async (
 ) => {
     try {
         const student = req.body as IUser;
+
         const result = await userService.create(student);
+        res.send(new ResponseHandler(result));
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.get("/", async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+
+        const result = await userService.get();
         res.send(new ResponseHandler(result));
     } catch (e) {
         next(e);
@@ -40,6 +55,7 @@ router.post("/login", async (
 ) => {
     try {
         const credentials = req.body as ICredentials;
+        console.log(credentials);
         const result = await userService.login(credentials);
         res.send(new ResponseHandler(result));
     } catch (e) {

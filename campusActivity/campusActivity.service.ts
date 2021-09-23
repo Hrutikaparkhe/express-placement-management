@@ -1,5 +1,6 @@
 import { ICampusActivity } from "./campusActivity.types";
 import campusActivityRepo from "./campusActivity.repo";
+import { CampusActivityResponse, ECampusActivityResponse } from "./campusActivity.response";
 
 const get = async () => {
 
@@ -10,8 +11,10 @@ const get = async () => {
 
 const create = async (campusActivity: ICampusActivity) => {
 
-    const data = await campusActivityRepo.create(campusActivity);
-    return data;
+    const response = await campusActivityRepo.create(campusActivity);
+    if(response)
+    
+    return CampusActivityResponse[ECampusActivityResponse.CAMPUS_ACTIVITY_ADD_SUCCESS];
 }
 
 const getOne = async (id: number) => {

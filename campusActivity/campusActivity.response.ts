@@ -3,11 +3,11 @@ export enum ECampusActivityResponse {
     CAMPUS_ACTIVITY_UPDATE_SUCCESS,
 }
 
-export const StuentResponse = {
+export const CampusActivityResponse = {
     [ECampusActivityResponse.CAMPUS_ACTIVITY_ADD_SUCCESS]: {
-        message: "Student Addded."
+        message: "Campus Activity Addded."
     },
     [ECampusActivityResponse.CAMPUS_ACTIVITY_UPDATE_SUCCESS]: {
-        message: "Student Updated"
+        message: "Campus Activity Updated"
     },
 }

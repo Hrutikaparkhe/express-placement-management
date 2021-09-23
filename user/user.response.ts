@@ -1,7 +1,8 @@
 export enum EUserResponse {
     LOGIN_SUCCESS,
     LOGIN_FAILED,
-    SIGNUP_SUCCESS
+    SIGNUP_SUCCESS,
+    USER_ALREADY_REGISTERED
 }
 
 export const UserResponse = {
@@ -14,5 +15,9 @@ export const UserResponse = {
     },
     [EUserResponse.SIGNUP_SUCCESS]: {
         message: "REGISTERED SUCCESFULLY"
+    },
+    [EUserResponse.USER_ALREADY_REGISTERED]: {
+        message: "USER WITH THIS EMAIL ALREADY REGISTERED",
+        statusCode:404
     }
 }

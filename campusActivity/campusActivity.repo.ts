@@ -59,7 +59,7 @@ const create = async (campusActivity: ICampusActivity) => {
     const responeFromStu_CampActivity = await Student_CampusActivity.bulkCreate(
       student_campusActivityData
     );
-    return responeFromStu_CampActivity;
+    return true;
   } catch (error) {
     console.log(error);
   }
