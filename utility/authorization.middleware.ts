@@ -6,10 +6,12 @@ export const AuthGuard = (exclude: string[]) => {
 
     if (!exclude.includes(req.path)) {
       const token = req.headers.authorization;
+    
       if (!token) {
         throw { message: "Token Not Found", statusCode: 401 };
       }
-      verify(token, process.env.SECRET_KEY || "");
+      const verifyResponse=verify(token, process.env.SECRET_KEY || "");
+      next();
     } else return next();
   };
 };

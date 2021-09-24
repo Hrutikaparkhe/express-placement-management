@@ -2,10 +2,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { ResponseHandler } from "../utility/response-handler";
 import campusActivityService from "./campusActivity.service";
 import { ICampusActivity } from "./campusActivity.types";
+import { CampusActivityValidator } from "./campusActivity.validations";
 
 const router = Router();
 
-router.post("/", async (
+router.post("/",CampusActivityValidator, async (
     req: Request,
     res: Response,
     next: NextFunction
