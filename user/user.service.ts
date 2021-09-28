@@ -3,7 +3,7 @@ import userRepo from "./user.repo";
 import { compare, genSalt, hash } from "bcrypt";
 import { EUserResponse, UserResponse } from "./user.response";
 import { sign } from "jsonwebtoken";
-
+import multer from "multer";
 const getAll = async () => {
   try {
     const data = await userRepo.find();
@@ -83,6 +83,7 @@ const login = async (credentials: ICredentials) => {
     throw UserResponse[EUserResponse.BAD_REQUEST];
   }
 };
+
 
 export default {
   create,

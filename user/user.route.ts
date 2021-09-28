@@ -2,7 +2,8 @@ import { NextFunction, Request, Response, Router } from "express";
 import { ResponseHandler } from "../utility/response-handler";
 import userService from "./user.service";
 import { ICredentials, IUser } from "./user.types";
-import { CreateUserValidator, LoginValidator } from './user.validations';
+import { CreateUserValidator, LoginValidator } from "./user.validations";
+import path from "path";
 const router = Router();
 
 router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
@@ -16,7 +17,8 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post(
-  "/register",CreateUserValidator,
+  "/register",
+  CreateUserValidator,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const student = req.body as IUser;
@@ -52,8 +54,9 @@ router.get(
 );
 
 router.post(
-  "/login",LoginValidator,
-  async (req: Request,res: Response, next: NextFunction) => {
+  "/login",
+  LoginValidator,
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const credentials = req.body as ICredentials;
 
@@ -64,5 +67,6 @@ router.post(
     }
   }
 );
+
 
 export default router;

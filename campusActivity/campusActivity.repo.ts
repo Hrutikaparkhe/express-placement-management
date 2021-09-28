@@ -44,15 +44,15 @@ const create = async (campusActivity: ICampusActivity) => {
     // Destructure data from reequest object to insert record to tables.
     //students-->  students data in cammpus activity(Many to Many)
     //campus activity ---> campus activity data(Many to Many)
+
     const { students, ...campusActivityData } = campusActivity;
     const result = await CampusActivity.create(campusActivityData);
     //insert students array data into students table
-    const responseFromStudent = await addStudents(students);
     // create an array to insert mapping datato the third table
-    responseFromStudent.forEach((data) => {
+    students.forEach((data) => {
       student_campusActivityData.push({
         CampusActivityId: result.get("id") as number,
-        StudentId: data.get("id") as number,
+        StudentId: data as number,
       });
     });
     //insert record to the third table
@@ -64,10 +64,7 @@ const create = async (campusActivity: ICampusActivity) => {
     console.log(error);
   }
 };
-const addStudents = async (students: IStudent[]) => {
-  const response = await Student.bulkCreate(students);
-  return response;
-};
+
 export default {
   find,
   create,

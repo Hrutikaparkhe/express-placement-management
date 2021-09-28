@@ -6,13 +6,14 @@ import { CampusActivityValidator } from "./campusActivity.validations";
 
 const router = Router();
 
-router.post("/",CampusActivityValidator, async (
+router.post("/", async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
         const campusActivity = req.body as ICampusActivity;
+
         const result = await campusActivityService.create(campusActivity);
         res.send(new ResponseHandler(result));
     } catch (e) {

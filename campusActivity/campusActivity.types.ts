@@ -5,7 +5,7 @@ export interface ICampusActivity {
     domain: string;
     noOfStudents: number;
     noOfVacancies:number;
-    students:IStudent[];
+    students:number[];
 }
 
 export interface IStudentCampusActivity {

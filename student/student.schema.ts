@@ -16,6 +16,9 @@ export const Student = postgres.define('Student', {
     avg: {
         type: DataTypes.INTEGER
     },
+    file:{
+        type:DataTypes.STRING
+    }
 }, {
     tableName: 'Student',
     timestamps: false

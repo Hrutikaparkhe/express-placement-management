@@ -1,6 +1,7 @@
 import { IStudent, IStudentUpdate } from "./student.types";
 import studentRepo from "./student.repo";
 import { EStudentResponse, StuentResponse } from "./student.response";
+import multer from "multer";
 
 const get = async () => {
   const data = await studentRepo.find();
@@ -31,9 +32,22 @@ const update = async (student: IStudentUpdate) => {
   }
 };
 
+
+const fileUpload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "files/");
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + "_" + file.originalname);
+    },
+  }),
+});
+
 export default {
   create,
   getOne,
   get,
   update,
+  fileUpload
 };
