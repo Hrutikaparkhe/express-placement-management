@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { ResponseHandler } from "../utility/response-handler";
 import campusActivityService from "./campusActivity.service";
-import { ICampusActivity } from "./campusActivity.types";
+import { ICampusActivity, IUpdateCampusActivity } from "./campusActivity.types";
 import { CampusActivityValidator } from "./campusActivity.validations";
 
 const router = Router();
@@ -47,5 +47,15 @@ router.get("/", async (
         next(e);
     }
 });
+
+router.put("/", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const campusActivity = req.body as IUpdateCampusActivity;
+      const result = await campusActivityService.update(campusActivity);
+      res.send(new ResponseHandler(result));
+    } catch (e) {
+      next(e);
+    }
+  });
 
 export default router;

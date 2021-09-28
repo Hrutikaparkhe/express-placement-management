@@ -1,6 +1,7 @@
 import {
   ICampusActivity,
   IStudentCampusActivity,
+  IUpdateCampusActivity,
 } from "./campusActivity.types";
 import { CampusActivity } from "./campusActivity.schema";
 import { Student } from "../student/student.schema";
@@ -65,8 +66,15 @@ const create = async (campusActivity: ICampusActivity) => {
   }
 };
 
+const update = async (campusActivity: IUpdateCampusActivity) => {
+  const result = await CampusActivity.update(campusActivity,{ where: { id: campusActivity.id } });
+  return result;
+
+}
+
 export default {
   find,
   create,
   getOne,
+  update
 };
