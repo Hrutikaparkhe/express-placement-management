@@ -4,7 +4,7 @@ import { validate } from './../utility/validate';
 export const CreateUserValidator = [
     body('name').isString().not().isEmpty(),
     body('email').isEmail(),
-    body('password').isStrongPassword(),
+    body('password').not().isEmpty(),
     validate
 ]
 

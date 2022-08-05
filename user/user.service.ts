@@ -33,8 +33,10 @@ const getById = async (id: number) => {
 
 const create = async (user: IUser) => {
   try {
+    console.log(user)
     //Search for an existing user with the supplied email - to make sure same email is only used once
     const userExists = await userRepo.getOne(user.email);
+
     if (userExists) throw UserResponse[EUserResponse.USER_ALREADY_REGISTERED];
 
     // change the password to in encrypted format
@@ -42,7 +44,8 @@ const create = async (user: IUser) => {
     const hashedPassword = await hash(user.password, salt);
 
     user.password = hashedPassword;
-
+console.log(user.password)
+console.log(hashedPassword)
     const response = await userRepo.create(user);
 
     return response;
